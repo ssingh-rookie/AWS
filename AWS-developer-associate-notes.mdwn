@@ -1,1 +1,18 @@
-### Notes for AWS Developer Associate Exacd ..
+# Notes for AWS Developer Associate Exam...
+
+**Date started**: 14th Sep 2020
+
+## 1. AWS Fundamentals
+
+#### Scalability
+**Vertical scalability** - increasing the size of the application 
+**Horizontal Scalability** - Increasing the size of no. of instances / applications
+
+
+#### Load Balancers 
+- Network load balancer
+- Application Load Balancer
+- Classic Load Balancer
+  
+
+ 
