@@ -5,14 +5,27 @@
 ## 1. AWS Fundamentals
 
 #### Scalability
-**Vertical scalability** - increasing the size of the application 
-**Horizontal Scalability** - Increasing the size of no. of instances / applications
+* **Vertical scalability** - increasing the size of the application 
+* **Horizontal Scalability** - Increasing the size of no. of instances / applications
 
 
 #### Load Balancers 
 - Network load balancer
 - Application Load Balancer
 - Classic Load Balancer
+
+
+
+* Managed Service
+  * Load balancers are managed, high availability, AWS guarantees it will work
+  * AWS takes care of upgrades
+  * AWS provides very few config options for clients to tinker
+
+
+* Costs less to set up but more effort on clients end
+* Integrated with many AWS offerings and services
+
+
   
 
  
