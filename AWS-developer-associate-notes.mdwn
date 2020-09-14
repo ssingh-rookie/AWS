@@ -103,10 +103,11 @@ https://aws.amazon.com/caching/best-practices/
    * if too many evictions happen, scale up or out. 
   
 **Thundering herd** : Also known as dog piling, when multiple apps hit the cache, get a cache miss and hit the db at the same time. More expensive the query, bigger the impact esp if the query is a top10 query.
-    * example is millions of people following a star for update when their TTL expires and veryone queries the db at the same time (even if he/she hasn't published an update)
-    * Also happens when a new cache node is added, pre-warm your node with a script and mimics what end users will do. 
-    * If adding or removing clusters on a regular basis, can be automated with SNS whenever you app receives a cluster reconfiguration event
-    * can be mitigated to some extent with the help of a randomised number added to a TTL for the session.  
+
+  * example is millions of people following a star for update when their TTL expires and veryone queries the db at the same time (even if he/she hasn't published an update)
+  * Also happens when a new cache node is added, pre-warm your node with a script and mimics what end users will do. 
+  * If adding or removing clusters on a regular basis, can be automated with SNS whenever you app receives a cluster reconfiguration event
+  * can be mitigated to some extent with the help of a randomised number added to a TTL for the session.  
 
 
   
