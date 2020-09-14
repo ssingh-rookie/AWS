@@ -88,7 +88,7 @@ https://aws.amazon.com/caching/best-practices/
 
 
 **Cache Evictions and TTL**
-   * Cachel evictions can happen in 3 ways
+   * Cache evictions can happen in 3 ways
        * Delete them explicitly 
        * Item is evicted because memory is full and its not recently used (LRU)
        * You set an item time-to-live (or TTL)
@@ -97,10 +97,19 @@ https://aws.amazon.com/caching/best-practices/
      * Leader boards
      * comments
      * activity streams
+        * **allkeys-lfu**: The cache evicts the least frequently used (LFU) keys regardless of TTL set
+        * **allkeys-lru**: The cache evicts the least recently used (LRU) regardless of TTL set
+        * **volatile-lfu**: The cache evicts the least frequently used (LFU) keys from those that have a TTL set
+        * **volatile-lru**: The cache evicts the least recently used (LRU) from those that have a TTL set
+        * **volatile-ttl**: The cache evicts the keys with shortest TTL set
+        * **volatile-random**: The cache randomly evicts keys with a TTL set
+        * **allkeys-random**: The cache randomly evicts keys regardless of TTL set
+        * **no-eviction**: The cache doesn’t evict keys at all. This blocks future writes until memory frees up.
 
    * TTL can range from few seconds to hours or days
 
-   * if too many evictions happen, scale up or out. 
+   * if too many evictions happen, scale up or out.
+   * By default AWS sets the volatile-lru eviction policy to your Redis cluster 
   
 **Thundering herd** : Also known as dog piling, when multiple apps hit the cache, get a cache miss and hit the db at the same time. More expensive the query, bigger the impact esp if the query is a top10 query.
 
