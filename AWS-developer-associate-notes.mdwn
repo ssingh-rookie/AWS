@@ -25,6 +25,16 @@
 * Costs less to set up but more effort on clients end
 * Integrated with many AWS offerings and services
 
+## 6. RDS
+
+#### Elasticache 
+
+* Same as RDS, in memory cache, high performance, low latency
+* Write scaling using sharding
+* Read scaling using read replicas
+* Multi-AZ with fail over capability
+* AWS take care of OS maintenence, patching, optimizations, setup, config, failure recovery and backups
+
 
   
 
