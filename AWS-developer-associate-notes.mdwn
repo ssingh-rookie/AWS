@@ -35,6 +35,79 @@
 * Multi-AZ with fail over capability
 * AWS take care of OS maintenence, patching, optimizations, setup, config, failure recovery and backups
 
+#### How does elastic cache fit into architecture
+
+* Apps hit the cache before querying data in the database
+* if it finds what its looking for - its **cache hit**
+* if not, its a **cache miss** and it goes looks for in the database or RDS
+* the app is programmed to write into cache for subsequent cache reads
+
+Great use case of writing user session in a web app where apps are stateless
+
+#### Elasticache - Redis vs Memcached
+
+REDIS | MEMCACHED
+------|----------
+multi-AZ with auto failover | multi - node for partitioning of data (sharding)
+read replicas to scale reads and have high availability | Non persistent 
+Data durability using AOF persistence (before after restart of cache) | No backup and restore
+Backup and restore features | Multi-threaded architecture
+
+redis - think RDS
+memcache - think shards, distributed storing system
+
+https://aws.amazon.com/caching/best-practices/
+
+#### Caching impmentation considerations
+* check if its safe to cache data
+* is caching effective for data
+  * pattern - data changing slowly, few keys frequently needed
+  * anti-pattern: data changing rapidly, all large key space frequently needed
+
+* is data well structured for caching?
+  * example: key value caching or caching of aggregations results
+  
+**which caching design pattern is the most appropriate ?**
+
+1. **lazy loading / cache aside / lazy population** : Cache hit, cache miss, write back to cache etc.
+   * Pros:
+       * only requested data is cached
+       * cache isn't filled up with unused data
+       * node failures are not fatal (increased latency to warm the cache)
+
+   * Cons:
+       * Cache miss penalty that results in 3 round trips, noticeable delay in requests
+
+2. **Write through**: Add or Update cache when database is updated
+    * Pros:
+      * Data in cache is never stale
+      * reads are quicker
+      * write penalty vs read penalty (each write requires 2 calls by the app)
+    * Cons:
+      * Missing data until it is added / updated in the db. mitigation is to use lazy loading strategy as well. 
+
+
+**Cache Evictions and TTL**
+   * Cachel evictions can happen in 3 ways
+       * Delete them explicitly 
+       * Item is evicted because memory is full and its not recently used (LRU)
+       * You set an item time-to-live (or TTL)
+
+   * TTL are helpful for any kind of data:
+     * Leader boards
+     * comments
+     * activity streams
+
+   * TTL can range from few seconds to hours or days
+
+   * if too many evictions happen, scale up or out. 
+  
+**Thundering herd** : Also known as dog piling, when multiple apps hit the cache, get a cache miss and hit the db at the same time. More expensive the query, bigger the impact esp if the query is a top10 query.
+    * example is millions of people following a star for update when their TTL expires and veryone queries the db at the same time (even if he/she hasn't published an update)
+    * Also happens when a new cache node is added, pre-warm your node with a script and mimics what end users will do. 
+    * If adding or removing clusters on a regular basis, can be automated with SNS whenever you app receives a cluster reconfiguration event
+    * can be mitigated to some extent with the help of a randomised number added to a TTL for the session.  
+
 
   
 
