@@ -44,9 +44,15 @@
 
 Great use case of writing user session in a web app where apps are stateless
 
-**Exam tip** - Typical use cases are user session management, compute heavy read queries, and offload db reads. Cannot be accessed from any other VPC, cannot provision more EC2 compute as its fully managed. Redis can run multiple modes (cluster enabled bs disabled) 
+**Exam tips** - Typical use cases are 
+  * user session management, 
+  * compute heavy read queries, and 
+  * offload db reads. 
+  * Cannot be accessed from any other VPC, 
+  * cannot provision more EC2 compute as its fully managed. 
+  * Redis can run multiple modes (cluster enabled bs disabled) 
 
-Cluster in redis activates sharding, multiple shards can have replicas in different AZ
+Cluster  mode in redis activates sharding, multiple shards can have replicas in different AZ
 
 
 #### Elasticache - Redis vs Memcached
