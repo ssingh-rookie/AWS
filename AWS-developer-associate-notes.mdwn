@@ -27,6 +27,45 @@
 
 ## 6. RDS
 
+
+#### RDS Encryption 
+
+* **Encryption at rest**
+  * can encrypt master and read replicas using AES256
+  * Encryption has to be defined at lunch time
+  * if master is not encrypted, read repicas cannot be encrypted
+  * TDE (transparent data encryption) for oracle and SQL server
+
+* **Inflight Encryption**
+  * Use SSL to encrypt data to RDS
+  * User SSL options with trust certificate when connecting to RDS
+  * To enforce SSL:
+    * rds.enforce=1 in db paramter groups
+    * mySQL grant usage on *.* to 'mysqluser'@'%' REQUIRE SSL; (effectively means add the SSL TRUE flag for every user in the db)
+
+* **Network Security**
+  * RDS always deploy within a private subnet
+  * RDS Security works by leveraging private groups can communicate with RDS
+* **Access Management**
+  * IAM policies help control who can manage AWS RDS (through RDS API)
+  * can also use username and password
+  * IAM-based based auth can be used to login to RDS mySQL and postGreSQL
+* IAM Auth
+  * IAM role based auth (assigned to Ec2), check RDS Service
+  * obtain auth token
+  * use token to connect to db
+  * auth token is valid for 15 mins
+  * Benefits:
+    *  N/W traffic is SSL enforced
+    *  Centrally manage user credentials in IAM instead of DB
+    *  leverage IAM Roles and EC2 instance profiles for easy integration
+
+RDS can be used with KMS (and its corresponding key policies in terms of who gains access) KMS uses envelope encryption, a unique data key which encrypts customer data and KMS master keys which encrypt data keys. 
+
+if master and read replica are in different region, you use KMS key for that region
+
+
+
 #### Elasticache 
 
 * Same as RDS, in memory cache, high performance, low latency
@@ -44,7 +83,7 @@
 
 Great use case of writing user session in a web app where apps are stateless
 
-**Exam tips** - Typical use cases are 
+**Typical use cases** are 
   * user session management, 
   * compute heavy read queries, and 
   * offload db reads. 
